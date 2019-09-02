@@ -13,13 +13,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import java.text.DecimalFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import io.reactivex.subjects.BehaviorSubject
-import android.util.Log
-import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.util.*
 
 
 class RateListViewModel(private val rateDao: RateDao) : BaseViewModel() {
@@ -118,7 +116,7 @@ class RateListViewModel(private val rateDao: RateDao) : BaseViewModel() {
     }
 
     fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        val newBaseValue = if(s.isEmpty())
+        val newBaseValue = if (s.isEmpty() || s.startsWith(".") || s.startsWith(","))
             0.0
         else {
             df.parse(s.toString())!!.toDouble()
